@@ -51,8 +51,8 @@ function [termflag] = m3d_inputgen(P_mat_ind, R_vec_ind, box_length, termflag)
   fprintf(fi2,"\n");
   fprintf(fi2,"import section\n");
   fprintf(fi2,"import regionToolset\n");
-  fprintf(fi2,"import displayGroupMdbToolset as dgm\n");
-  fprintf(fi2,"import displayGroupOdbToolset as dgo\n");
+  #fprintf(fi2,"import displayGroupMdbToolset as dgm\n");
+  #fprintf(fi2,"import displayGroupOdbToolset as dgo\n");
   fprintf(fi2,"import sketch\n");
   fprintf(fi2,"import part\n");
   fprintf(fi2,"import assembly\n");

@@ -110,8 +110,8 @@ function [termflag] = m3d_vxmesh(P_mat_ind, R_vec_ind, box_length, el_number, el
   fprintf(fi3,"\n");
   fprintf(fi3,"import section\n");
   fprintf(fi3,"import regionToolset\n");
-  fprintf(fi3,"import displayGroupMdbToolset as dgm\n");
-  fprintf(fi3,"import displayGroupOdbToolset as dgo\n");
+  #fprintf(fi3,"import displayGroupMdbToolset as dgm\n");
+  #fprintf(fi3,"import displayGroupOdbToolset as dgo\n");
   fprintf(fi3,"import sketch\n");
   fprintf(fi3,"import part\n");
   fprintf(fi3,"import assembly\n");
