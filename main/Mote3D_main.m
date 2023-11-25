@@ -91,9 +91,10 @@ invar = {"Edge length of cubical domain:",
          "Particle overlap factor from the interval [0, 1]:\n(0 = full overlap, 1 = no overlap)",
          "Maximum number of trials to position particles:",
          "Sort particle diameters in descending order?:\n(y = yes, n = no)",
-         "Plot particulate microstructure?:\n(y = yes, n = no)"};
-default = {"5.0", "8", "1.0", "0.5", "0.9", "10000", "n", "n"};
-instr = cell(8,1);
+         "Plot particulate microstructure?:\n(y = yes, n = no)",
+         "Number of C3D8 elements in each direction of the mesh:"};
+default = {"5.0", "8", "1.0", "0.5", "0.9", "10000", "n", "n", "20"};
+instr = cell(9,1);
 instr = inputdlg(invar, "Mote3D input variables", 1, default);
 
 if (isempty(instr))
@@ -101,17 +102,18 @@ if (isempty(instr))
   return;
 endif
 
-defstr = {instr{1}, instr{2}, instr{3}, instr{4}, instr{5}, instr{6}, instr{7}, instr{8}};
+defstr = {instr{1}, instr{2}, instr{3}, instr{4}, instr{5}, instr{6}, instr{7}, instr{8}, instr{9}};
 
 while ((sum(cellfun("isempty", defstr)) > 0) || ...
        (str2num(defstr{2}) < 2) || ...
        (sum(cellfun("str2num", defstr(1:6)) < 0) > 0) || ...
        (str2num(defstr{3}) >= str2num(defstr{1})) || ...
        (sum(strcmp(defstr{7}, {'y', 'n'})) == 0) || ...
-       (sum(strcmp(defstr{8}, {'y', 'n'})) == 0))
+       (sum(strcmp(defstr{8}, {'y', 'n'})) == 0) || ...
+       (str2num(defstr{9}) < 2))
   warndlg("Please check input!", "Warning");
   instr = inputdlg(invar, "Mote3D input variables", 1, defstr);
-  defstr = {instr{1}, instr{2}, instr{3}, instr{4}, instr{5}, instr{6}, instr{7}, instr{8}};
+  defstr = {instr{1}, instr{2}, instr{3}, instr{4}, instr{5}, instr{6}, instr{7}, instr{8}, instr{9}};
 endwhile
 
 ## Input variables:
@@ -123,6 +125,7 @@ o_f = str2num(defstr{5});
 maxtrials = uint32(str2num(defstr{6}));
 sortstr = defstr{7};
 plotstr = defstr{8};
+el_number = str2num(defstr{9});
 
 ## Save input variables to text file:
 fi1 = fopen("Statistics.txt", "wt");
@@ -254,6 +257,16 @@ fclose(fi2);
 fi3 = fopen("rvec.bin", "w");
 fwrite(fi3, R_vec_ind, "double");
 fclose(fi3);
+
+# create .py for abaqus solid geometry
+termflag = 0
+[termflag] = m3d_inputgen(P_mat_ind, R_vec_ind, box_length, termflag)
+
+# create voxel mesh for abaqus
+termflag = 0
+el_type = 'C3D8'
+[termflag] = m3d_vxmesh(P_mat_ind, R_vec_ind, box_length, el_number, el_type, termflag)
+
 
 ## Plot particulate microstructure:
 if (plotstr == 'y')
