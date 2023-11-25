@@ -1,0 +1,9 @@
+__pycache__
+.exe
+.out
+*.pyc
+*.bin
+*.txt
+*.rpy*
+Abq_input_script.py
+Abq_voxel_mesh.py
