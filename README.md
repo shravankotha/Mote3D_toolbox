@@ -45,3 +45,12 @@ Further details on the implementation and some case studies are outlined in [thi
 
 Mote3D is licensed under the [GNU General Public License](https://github.com/Mote3D/Mote3D_toolbox/blob/master/LICENSE.txt).
 
+# Abaqus commands for post-processing the data
+
+Abq_input_script.py and Abq_voxel_mesh,py can be directly opend using CAE.
+1. open CAE
+2. file --> run script
+
+Alternatively, they can also be run from cmd line as:
+abaqus CAE noGUI=Abq_input_script.py
+abaqus CAE noGUI=Abq_voxel_mesh.py
